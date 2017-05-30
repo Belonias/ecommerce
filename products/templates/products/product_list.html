@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% for object in object_list %}
+<!-- dynamic url -->
+<p><a href={% url 'product_detail' object.pk %}>{{ object }}</a></p>
+{% endfor %}
+{% endblock %}
