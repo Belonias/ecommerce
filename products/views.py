@@ -8,6 +8,7 @@ from .models import Product
 # cbv
 class ProductListView(ListView):
     model = Product
+    queryset = Product.objects.all()
     # overide the defaul method
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(*args, **kwargs)
