@@ -5,9 +5,15 @@
 <h1>product detail</h1>
 <h1>{{ product.title }}</h1>
 <h1>{{ product.price }}</h1>
+
 {{ product.variation_set.all }}
+
+{% if product.variation_set.count > 1 %}
+<select class='form-control'>
 {% for pro in product.variation_set.all %}
-{{ pro.title }}-{{ pro.price }}
+<option value="{{ pro.id }}">{{ pro.title }}-{{ pro.price }}</option>
 {% endfor %}
+</select>
+{% endif %}
 
 {% endblock %}
