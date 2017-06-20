@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
-
+from django.db.models import Q
 # Create your views here.
 from .models import Product
 
@@ -13,6 +13,15 @@ class ProductListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(*args, **kwargs)
         return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ProductListView, self).get_queryset(*args, **kwargs)
+        query = self.request.GET.get('q')
+        if query:
+            qs = self.model.objects.filter(
+            Q(title__icontains=query) |
+            )
+        return qs
 
 class ProductDetailView(DetailView):
     model = Product
