@@ -12,6 +12,7 @@ class ProductListView(ListView):
     # overide the defaul method
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(*args, **kwargs)
+        context['query'] = self.request.GET.get('q')
         return context
 
     def get_queryset(self, *args, **kwargs):
@@ -20,7 +21,15 @@ class ProductListView(ListView):
         if query:
             qs = self.model.objects.filter(
             Q(title__icontains=query) |
+            Q(description__icontains=query)
             )
+            try:
+                qs2 = self.model.objects.filter(
+                    Q(price=query)
+                )
+                qs = (qs | qs2).distinct()
+            except:
+                pass
         return qs
 
 class ProductDetailView(DetailView):
